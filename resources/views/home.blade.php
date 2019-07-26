@@ -29,9 +29,9 @@
                                                 <h1 class="story_title">
                                                     <a style="color: #890e2a;"
                                                        @if(auth()->check())
-                                                       href="{{ url('/p/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html"
+                                                       href="{{ url('/p/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}"
                                                        @else
-                                                       href="{{ url('/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html"
+                                                       href="{{ url('/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}"
                                                             @endif
                                                     >
 
@@ -56,13 +56,11 @@
                                                             echo "<img src='".$img_d."' class='text-center img_view lazy' alt='".$b_c->title."' style='max-height: 330px;'   />";;
                                                         }
 
-
                                                     }else{
                                                         preg_match('/<iframe.*src=\"(.*)\".*><\/iframe>/isU', $b_c->content, $matches);
                                                         if(isset($matches[1])){
                                                             echo '<div class="videoWrapper">
                                                                     <iframe src="'.$matches[1].'" ></iframe></div>';
-
                                                         }
                                                     }
                                                     ?></div>
@@ -173,11 +171,6 @@
                                         @endif
                                         <?php }?>
 
-
-
-
-
-
                                 <?php $i++; $indegen++;?>
                             @endforeach
 
@@ -201,7 +194,6 @@
                                 <?php } ?>
 
                         </div>
-
                     </div>
                 </div>
             </div>

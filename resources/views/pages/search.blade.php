@@ -96,7 +96,11 @@
                                     <?php $i++;?>
 
                                 @endforeach
-                                    {{$blog_contents->appends(request()->input())->render()}}
+                                    {{-- {{$blog_contents->appends(request()->input())->render()}} --}}
+                                    <div class="pagination-button">
+                                        <a href="{{ $backSearch }}">Back</a>
+                                        <a href="{{ $nextSearch }}">Next</a>
+                                    </div>
                                     @else
                                     <div class="alert alert-info">
                                         No result found
