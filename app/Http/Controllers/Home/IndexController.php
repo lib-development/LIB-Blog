@@ -2,33 +2,37 @@
 
 namespace App\Http\Controllers\Home;
 
+use Cache;
+use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\BlogContent;
+use App\Models\Advert;
+use App\Models\Setting;
+
 class IndexController extends Controller
 {
-    public function home()
+    public function homeViewContent()
     {
-
-        //this time we are going to be generating pure html
-        $agent = new \Jenssegers\Agent\Agent();
-
+        # Generating pure HTML
+        $agent = new Agent();
 
         if (Cache::get('settings')) {
             $setting = Cache::get('settings');
         } else {
             $setting = Setting::where('id', '1')->first();
-
             Cache::put('settings', $setting, "30");
         }
+
         //current_data
         if ($agent->isMobile()) {
             $data = Cache::get('mobile_all_data');
         } else {
             $data = Cache::get('all_data');
         }
-        $minuts = 60;
 
+        $minutes = 60;
         if ($data) {
             $blog_contents = $data;
             if (isset($_GET['page'])) {
@@ -39,14 +43,14 @@ class IndexController extends Controller
                         $blog_contents = Cache::get('mobile_all_data2');
                     } else {
                         $blog_contents = BlogContent::where('status', "1")->orderby('publish_date', 'desc')->paginate(60);
-                        Cache::put('mobile_all_data2', $blog_contents, $minuts);
+                        Cache::put('mobile_all_data2', $blog_contents, $minutes);
                     }
                 } else {
                     if (Cache::get('all_data2')) {
                         $blog_contents = Cache::get('all_data2');
                     } else {
                         $blog_contents = BlogContent::where('status', "1")->orderby('publish_date', 'desc')->paginate(60);
-                        Cache::put('all_data2', $blog_contents, $minuts);
+                        Cache::put('all_data2', $blog_contents, $minutes);
                     }
                 }
             }
@@ -54,10 +58,10 @@ class IndexController extends Controller
             if ($agent->isMobile()) {
                 //show a 150 content for mobile
                 $blog_contents = BlogContent::where('status', "1")->orderby('publish_date', 'desc')->paginate(60);
-                Cache::put('mobile_all_data', $blog_contents, $minuts);
+                Cache::put('mobile_all_data', $blog_contents, $minutes);
             } else {
                 $blog_contents = BlogContent::where('status', "1")->orderby('publish_date', 'desc')->paginate($setting->number_of_post);
-                Cache::put('all_data', $blog_contents, $minuts);
+                Cache::put('all_data', $blog_contents, $minutes);
             }
         }
 
@@ -100,7 +104,7 @@ class IndexController extends Controller
             $blog_contents2 = $data2;
         } else {
             $blog_contents2 = BlogContent::where('status', 1)->orderby('publish_date', 'desc')->skip(60)->take(50)->get();
-            Cache::put('side_bar', $blog_contents2, $minuts);
+            Cache::put('side_bar', $blog_contents2, $minutes);
         }
 
         $meta_title = $setting->name;
@@ -109,9 +113,7 @@ class IndexController extends Controller
         $meta_image = "";
         $meta_time = "";
 
-
-
-        //get all the advert rolling out
+        // Get all the advert rolling out
         $keywords = "blogs";
         if ($agent->isMobile()) {
             //show a 150 content for mobile
@@ -119,6 +121,5 @@ class IndexController extends Controller
         } else {
             return view('home')->with(@compact('sidebar', 'keywords', 'meta_time', 'meta_url', 'comments', 'inbtw', 'background', 'cpm', 'fp', 'blog_contents', 'blog_contents2', 'meta_title', 'meta_description', 'meta_image', 'meta_author'));
         }
-        //  return view('home')->with(@compact('sidebar',"keywords",'meta_url','meta_time','comments','inbtw','background','cpm','fp','blog_contents','blog_contents2','meta_title','meta_description','meta_image','meta_author'));
     }
 }

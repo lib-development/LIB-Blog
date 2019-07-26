@@ -42,14 +42,12 @@ class IndexController extends Controller
                 }
             }
 
-
             $meta_title = utf8_decode($blog_content->title);
             $keywords = explode(" ", $meta_title);
             $keywords = implode(",", $keywords);
             $meta_description = substr(strip_tags($blog_content->content), 0, 200);
             $meta_url = url()->current();
             $meta_time = Carbon::parse($blog_content->publish_date)->toW3cString();
-
 
             $content = $blog_content->content;
             $str = preg_replace('/<img(.*)>/i', '', $content, 1);
@@ -58,8 +56,6 @@ class IndexController extends Controller
             $img_src = (isset($image['src']) ? $image['src'] : "");
 
             $meta_image = $img_src;
-
-
 
             if (Cache::get('sidebar_o')) {
                 $sidebar = Cache::get('sidebar_o');
@@ -94,7 +90,6 @@ class IndexController extends Controller
                 $inbtw = [];
             }
 
-
             $sub_data = (int) count($sidebar);
 
             if ($sub_data >= 5) {
@@ -108,8 +103,7 @@ class IndexController extends Controller
                 Cache::put("blog_content2", $blog_contents2, "120");
             }
 
-            //content with the largest amount of in the last few days
-            //
+            // Content with the largest amount of in the last few days
             $start = Carbon::now()->subDay(3)->format('Y-m-d') . " 00:00:00";
             $end = Carbon::now()->format('Y-m-d') . " 23:59:59";;
 
@@ -117,10 +111,8 @@ class IndexController extends Controller
                 $blog_content_view = Cache::get("blog_content_view");
             } else {
                 $blog_content_view = BlogContent::whereBetween('publish_date', [$start, $end])->orderby('views', 'desc')->paginate(12);
-
                 Cache::put("blog_content_view", $blog_content_view, "120");
             }
-
 
             return view('post')->with(@compact('sidebar', "keywords", 's_c', 'meta_url', 'meta_time', 'comments', 'blog_content_view', 'blog_contents2', 'inbtw', 'background', 'fp', 'blog_content', 'meta_title', 'meta_description', 'meta_image', 'meta_author'));
         } else {

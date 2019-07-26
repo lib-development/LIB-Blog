@@ -422,7 +422,7 @@ function replyComment(o){scrollToElement("#postcomment",600),$("#parent_id").val
         //at this point send an ajax call to the server saving the fcm token
         @if(isset($blog_content))
             $.ajax({
-            url: '{{ url('/save/comment') }}',
+            url: '{{ url('/comment/save') }}',
             type: 'post',
             data:  '_token='+ CSRF_TOKEN +"&full_name="+full_name+"&img_url="+ img_url +"&email="+ email+"&comment="+ comment+"&parent_id="+ parent_id+"&blog_id="+'{{ encrypt_decrypt('encrypt',$blog_content->id) }}',
             processData: false,
@@ -458,7 +458,7 @@ function validateEmail(a){var n=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@
         }
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-        var url = '{{ url('/save/likes') }}';
+        var url = '{{ url('/comment/likes') }}';
 
         //at this point send an ajax call to the server saving the fcm token
         $.ajax({
@@ -491,7 +491,7 @@ function validateEmail(a){var n=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@
         }
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-        var url = '{{ url('/save/dislikes') }}';
+        var url = '{{ url('/comment/dislikes') }}';
 
         //at this point send an ajax call to the server saving the fcm token
         $.ajax({
