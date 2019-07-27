@@ -77,7 +77,7 @@ if(isset($result[0][0])){
 
                                         <div class="sharethis-inline-share-buttons"></div>
 
-            
+
             <div class="demo-item content">
 
             <div id="shareIcons"></div>
@@ -96,9 +96,11 @@ if(isset($result[0][0])){
                                      data-ad-slot="8308195748"
                                      data-ad-format="auto"></ins>
 
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <script>
+        $(document).ready(function(){
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+    </script>
                             </div>
                         <!-- Big Story Ends Here -->
                         </div>
@@ -193,7 +195,9 @@ if(isset($result[0][0])){
                                                      data-ad-slot="{{ isset($ads[$comments_num]) ? $ads[$comments_num] : "" }}"
                                                      data-ad-format="auto"></ins>
                                                     <script>
-                                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                                        $(document).ready(function(){
+                                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                                        });
                                                     </script>
 
                                             <?php $comments_num++?>
