@@ -97,7 +97,9 @@ googletag.cmd.push(function() { googletag.display(\'div-gpt-ad-1509384239169-0\'
                                          data-ad-slot="8308195748"
                                          data-ad-format="auto"></ins>
                                     <script>
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                        $(document).ready(function(){
+                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                        });
                                     </script>
 
                                 </div>
