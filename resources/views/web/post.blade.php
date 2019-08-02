@@ -110,6 +110,7 @@ if(isset($result[0][0])){
                             <h3>Most Read Stories</h3>
                             <ul class="slides" style="display:none;">
                                 <?php $i =1 ;?>
+                                {{-- {{ dd($blog_content_view) }} --}}
                                 @foreach($blog_content_view as $b_c_v)
 
                                 <li class="car_item" style="width: 180px;@if($i > 4)

@@ -9,7 +9,7 @@
                         $url = explode('?',$paginator->previousPageUrl());
                         $url = str_replace("page=","",$url[1]);
 
-                            $url = "http://lindaikejisblog.com/page/".$url;
+                            $url = "http://". env('APP_HOST_URL_DOMAIN') . "/page/".$url;
 
 //                $url = str_replace('127.0.1.1','lindaikejisblog.com',$paginator->previousPageUrl());
                 echo $url;
@@ -24,7 +24,7 @@
                 $url = str_replace("page=","",$url[1]);
 
 
-                    $url = "http://lindaikejisblog.com/page/".$url;
+                    $url = "http://" . env('APP_HOST_URL_DOMAIN'). "/page/".$url;
 
                 //                $url = str_replace('127.0.1.1','lindaikejisblog.com',$paginator->previousPageUrl());
                 echo $url;

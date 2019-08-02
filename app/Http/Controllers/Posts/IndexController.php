@@ -10,6 +10,7 @@ class IndexController extends Controller
     public function blogContent($year = null, $month = null, $slug = null)
     {
         $blog_content = "";
+        dd($blog_content_view);
         $slug = explode(".", $slug);
         $slug = $slug[0];
         if (isset($slug)) {
@@ -113,7 +114,7 @@ class IndexController extends Controller
                 $blog_content_view = BlogContent::whereBetween('publish_date', [$start, $end])->orderby('views', 'desc')->paginate(12);
                 Cache::put("blog_content_view", $blog_content_view, "120");
             }
-
+            dd($blog_content_view);
             return view('post')->with(@compact('sidebar', "keywords", 's_c', 'meta_url', 'meta_time', 'comments', 'blog_content_view', 'blog_contents2', 'inbtw', 'background', 'fp', 'blog_content', 'meta_title', 'meta_description', 'meta_image', 'meta_author'));
         } else {
             return redirect()->to('/');
