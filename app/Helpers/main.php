@@ -60,9 +60,9 @@ function website_url($path)
         unset($info[0]);
         $host = implode(".", $info);
     } else {
-        $host = "lindaikejisblog.com";
+        $host = env("APP_HOST_URL_DOMAIN");
     }
-    echo $protocol . "://www.lindaikejisblog.com" . $path;
+    echo $protocol . "://www." . env("APP_HOST_URL_DOMAIN") . $path;
 }
 
 function pending_comment()
