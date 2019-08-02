@@ -61,7 +61,7 @@
         <p class="text-intro opacity-0">With joy in our hearts, we wish you a happy birthday, we hope you love the chocolate cake 😊</p>
 
 
-        <a href="http://lindaikejisblog.com" target="_blank" class="action-btn trigger text-intro opacity-0">Visit Blog</a>
+        <a href="http://{{env('APP_HOST_URL')}}" target="_blank" class="action-btn trigger text-intro opacity-0">Visit Blog</a>
 
     </div> <!-- /. content -->
 

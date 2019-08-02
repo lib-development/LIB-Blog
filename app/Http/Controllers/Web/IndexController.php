@@ -43,12 +43,10 @@ class IndexController extends Controller
 
             if ($sub_commments->count() > 0) {
                 $sub_commments = $sub_commments->toArray();
-
                 foreach ($sub_commments as $sub_commment) {
                     $s_c[$sub_commment['parent_id']][] = $sub_commment;
                 }
             }
-
 
             $meta_title = utf8_decode($blog_content->title);
             $keywords = explode(" ", $meta_title);
@@ -56,7 +54,6 @@ class IndexController extends Controller
             $meta_description = substr(strip_tags($blog_content->content), 0, 200);
             $meta_url = url()->current();
             $meta_time = Carbon::parse($blog_content->publish_date)->toW3cString();
-
 
             $content = $blog_content->content;
             $str = preg_replace('/<img(.*)>/i', '', $content, 1);
@@ -82,7 +79,6 @@ class IndexController extends Controller
                 $background = Cache::get('background');
             } else {
                 $background = Advert::where('type', '2')->orderby('order', 'asc')->get();
-
                 Cache::put('background', $background, "30");
             }
 
@@ -113,7 +109,6 @@ class IndexController extends Controller
             }
 
             // Content with the largest amount of in the last few days
-
             $start = Carbon::now()->subDay(3)->format('Y-m-d') . " 00:00:00";
             $end = Carbon::now()->format('Y-m-d') . " 23:59:59";;
 
@@ -124,7 +119,7 @@ class IndexController extends Controller
                 Cache::put("blog_content_view", $blog_content_view, "120");
             }
             $comments = Comment::where('blog_content_id', $blog_content->id)->where('status', '1')->get();
-            // dd($s_c[$comments->id]);
+            // dd($blog_content_view);
             return view('web.post')->with(@compact('sidebar', "keywords", 's_c', 'meta_url', 'meta_time', 'comments', 'blog_content_view', 'blog_contents2', 'inbtw', 'background', 'fp', 'blog_content', 'meta_title', 'meta_description', 'meta_image', 'meta_author'));
         } else {
             return redirect()->to('/');

@@ -178,6 +178,7 @@ return [
 
         // Custom Application Service Providers
         Jenssegers\Agent\AgentServiceProvider::class,
+        Roumen\Feed\FeedServiceProvider::class,
 
     ],
 
@@ -231,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Feed' => Roumen\Feed\Feed::class,
     ],
 
 ];
