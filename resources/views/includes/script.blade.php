@@ -1,18 +1,21 @@
-
 @section('script')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-    <style>
-        /*body{*/
-            /*overflow-y: hidden;*/
-        /*}*/
-    </style>
-    <script data-cfasync="false" src="{{ url('/vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
-    {{--<script src="https://cdn.ckeditor.com/4.6.1/full-all/ckeditor.js"></script>--}}
-    <script data-cfasync="false" src="{{ url('/vendor/unisharp/laravel-ckeditor/adapters/jquery.js') }}"></script>
-    <script data-cfasync="false">
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js">
+</script>
+<style>
+    /*body{*/
+    /*overflow-y: hidden;*/
+    /*}*/
 
-        function close_b(){
+</style>
+<script data-cfasync="false" src="{{ url('/vendor/unisharp/laravel-ckeditor/ckeditor.js') }}">
+</script>
+{{--<script src="https://cdn.ckeditor.com/4.6.1/full-all/ckeditor.js"></script>--}}
+<script data-cfasync="false"
+    src="{{ url('/vendor/unisharp/laravel-ckeditor/adapters/jquery.js') }}"></script>
+<script data-cfasync="false">
+    function close_b(){
             var c = confirm("Are you sure you want to close this Post");
             if(c){
                 localStorage.clear();
@@ -147,7 +150,40 @@
         window.onscroll = function (e) {
 
         }
-    </script>
+
+        $(document).ready(function() {
+        /* the Responsive menu script */
+            $('body').addClass('js');
+                var $menu = $('#menu'),
+                        $menulink = $('.menu-link'),
+                        $menuTrigger = $('.has-subnav > a');
+
+            $menulink.click(function(e) {
+                    e.preventDefault();
+                    $menulink.toggleClass('active');
+                    $menu.toggleClass('active');
+            });
+
+            var add_toggle_links = function() {
+                if ($('.menu-link').is(":visible")){
+                    if ($(".toggle-link").length > 0){
+                    }
+                    else{
+                        $('.has-subnav > a').before('<span class="toggle-link"> Open submenu </span>');
+                        $('.toggle-link').click(function(e) {
+                            var $this = $(this);
+                            $this.toggleClass('active').siblings('ul').toggleClass('active');
+                        });
+                    }
+                }
+                else{
+                    $('.toggle-link').empty();
+                }
+            }
+            add_toggle_links();
+            $(window).bind("resize", add_toggle_links);
+        });
+</script>
 
 
 

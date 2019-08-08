@@ -150,3 +150,8 @@ function search_query_constructor($dataArray, $col_name, $trim_last_or = false)
     return $constructor_sql .= ")";
 
 }
+
+function allCategories() {
+    $categories = \App\Models\Category::all();
+    return $categories;
+}
