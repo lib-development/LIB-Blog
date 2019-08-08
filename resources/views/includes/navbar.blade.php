@@ -6,7 +6,7 @@
             <ul class="menu">
                 @foreach (allCategories() as $category)
                 <li class="{{ $category->name === 'News' ? 'current-menu-item' : '' }}">
-                    <a href="{{ url('/categories/') . $category->id }}">{{ $category->name }}</a>
+                    <a href="{{ url('/categories') }}/{{ $category->id }}">{{ $category->name }}</a>
                 </li>
                 @endforeach
             </ul>
