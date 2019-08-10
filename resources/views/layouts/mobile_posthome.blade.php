@@ -55,7 +55,7 @@
     <script data-cfasync="true" type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"Organization","url":"{{ \Illuminate\Support\Facades\Request::url() }}","sameAs":["https:\/\/www.facebook.com\/LindaIkejiBlog","https:\/\/twitter.com\/lindaikeji"],"@id":"#organization","name":"Linda Ikeji&#039;s Blog","logo":"http://www.lindaikejisblog.com/img/favicon.png"}</script>
     <link rel="manifest" href="/manifest.json">
     <link rel="shortcut icon" href="{{ url('/img/favicon.png') }}" type="image/png">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/js/all.min.js" integrity="sha256-xzrHBImM2jn9oDLORlHS1/0ekn1VyypEkV1ALvUx8lU=" crossorigin="anonymous"></script>
     <script data-cfasync="true" async src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
     <script>
         var OneSignal = window.OneSignal || [];
@@ -140,9 +140,9 @@
     <div class="blog_title">
         <div class="signage">
             <h3><a href="{{ url('/') }}" style="color: #fff;text-decoration: none;">Welcome to Linda Ikeji's Blog <em class="hidden-xs hidden-md" style="font-size: 13px">So much more to read now <img src="{{ url('/images/wink.png') }}" alt=""></em></a></h3>
-            <p>
+            {{-- <p>
                 News, Events, Entertainment, Lifestyle, Fashion, Beauty, Inspiration and yes... Gossip! *Wink*
-            </p>
+            </p> --}}
         </div>
 
         <div class="container search_pane">

@@ -9,9 +9,11 @@ use App\Models\Advert;
 use App\Models\BlogContent;
 use App\Models\Category;
 
+use Cache;
+
 class CategoriesController extends Controller
 {
-    public function viewCategory (Request $request, $param)
+    public function viewCategories (Request $request, $param)
     {
         if (is_numeric($param)) {
             $category = Category::where('id', $param)->first();
@@ -33,7 +35,7 @@ class CategoriesController extends Controller
         $fp = Advert::where('type','3')->orderby('order','asc')->get();
         $inbtw = $inbtw ? $inbtw->toArray() : [];
         $meta_author = 'LInda Ikeji Admin';
-        $meta_title = "Category: ". $category->name;
+        $meta_title = ucfirst($category->name) . " - Linda Ikeji's Blog";
         $meta_description = '<p style="font-size: 15px;background:#8e0f2c;padding: 10px;color: #fff;">Total of <strong>'.$category->blogPosts()->count() . "</strong> posts found.</p>";
         $meta_url = url()->current();
         $meta_image = "";
@@ -45,13 +47,22 @@ class CategoriesController extends Controller
             ->limit($baseQuantity)
             ->get();
 
+        // if(Cache::has('side_bar')){
+        //     $blog_contents2 = Cache::get('side_bar');
+        // } else {
+            $blog_contents2 = BlogContent::where('status', 1)
+                ->orderby('publish_date', 'desc')
+                ->skip($skipQueryString * 2)
+                ->take(50)->get();
+        // }
+
+        Cache::put('side_bar', $blog_contents2, 60);
+
         $nextPage = $pageQueryString == 0 ? 1 : $pageQueryString + 1;
         $backPage = $pageQueryString <= 0 ? 0 : $pageQueryString - 1;
         $nextSearch = '?page=' . $nextPage;
         $backSearch = '?page=' . $backPage;
 
-        return view('view_category')->with(compact('meta_url','meta_time','category', 'categoryPosts','sidebar','inbtw','background','fp','meta_title','meta_description','meta_image','meta_author', 'nextSearch', 'backSearch'));
-
-        // dd($category);
+        return view('view_category')->with(compact('blog_contents2', 'meta_url','meta_time','category', 'categoryPosts','sidebar','inbtw','background','fp','meta_title','meta_description','meta_image','meta_author', 'nextSearch', 'backSearch'));
     }
 }

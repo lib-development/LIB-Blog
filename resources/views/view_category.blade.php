@@ -2,96 +2,175 @@
 
 @section('content')
     <div class="main" style="margin-bottom: 10px;">
-        @if($fp->count() >0 )
-            <div class="da x728">
-                @if($fp->count() >0 )
-                    @foreach($fp as $front_page)
-                        {!! $front_page->content !!}
-                    @endforeach
-                @endif
-            </div>
-        @endif
+        @include('includes.frontpage')
 
         <div class="board">
             <div class="container con_style">
-                <div class="row">
+                <div class="row" style="margin-bottom: 33px;">
                     <!-- Main Board Starts Here-->
-                    <div class="col-md-8 main_board">
+                    <div class="col-md-9 main_board" style="padding-right: 20px;">
                         <!-- Big Story Row Starts Here -->
-                            <h2 style="font-size: 25px;background:#8e0f2c;padding: 10px;color: #fff;">{{ $meta_title }}</h2><br/>
-                            @if (count($categoryPosts) >= 1)
-                                {!! $meta_description !!}<br/>
-                            @endif
-                        <div class="row">
+                        <div class="row" style="padding: 0px 15px;">
                             <!-- Big Story Starts Here -->
                             <div class="col-md-12">
-                                <?php $i = $j = 0;?>
-                                @if(count($categoryPosts) >= 1)
-                                    @foreach($categoryPosts as $post)
-                                        @if($i != 0 && $i%2 == 0)
 
-                                            @if(count($inbtw) >0 )
-                                                <div class="clearfix"></div>
-                                                <div class="da x728">
-                                                    <div style="height: 20px;"></div>
-                                                    @if(isset($inbtw[$j]))
-                                                        {!! $inbtw[$j]['content'] !!}
-                                                    @endif
-                                                </div>
-                                                <hr>
-                                                <?php $j++;?>
-                                                <br>
-                                            @endif
-                                        @endif
+                                <?php $i = 1; $j = 0;$k = 0; $indegen = 0;?>
+                                @if (count($categoryPosts) > 0)
+                                @foreach($categoryPosts as $post)
+                                    <?php if($post->status != "1"){
+                                        continue;
+                                    }
+                                    ?>
 
-                                            <article class="result">
-                                                <a href="javascript:;" class="pic">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <article class="story_block">
+                                            <figure class="story_img">
+                                                <h1 class="story_title">
+                                                    <a style="color: #890e2a;"
+                                                       @if(auth()->check())
+                                                       href="{{ url('/p/'.$post->year.'/'.$post->month.'/'.$post->slug) }}"
+                                                       @else
+                                                       href="{{ url('/'.$post->year.'/'.$post->month.'/'.$post->slug) }}"
+                                                            @endif
+                                                    >
+
+                                                        {{ utf8_decode($post->title) }}
+
+                                                    </a>
+                                                </h1>
+                                                <div class="img_view" style="overflow: hidden;max-height: 333px;">
                                                     <?php
                                                     preg_match_all('~<img.*?src=["\']+(.*?)["\']+~', $post->content, $urls);
                                                     if(isset($urls[1][0])){
                                                         $img_d = $urls[1][0];
-                                                        echo "<img src='".$img_d."' alt='' style='height: 400px;width:100%;'/>";;
+                                                        //since we now have the url , check if it is  a blogger url
+                                                        if (strpos($img_d, 'shares') !== false) {
+                                                            $img_d = str_replace("shares/",'shares/thumbs/',$img_d);
+                                                            $img_d = str_replace("alexis.","www.",$img_d);
+                                                            $img_d = str_replace("http:","https:",$img_d);
+                                                        }
+                                                        if($i > 29){
+                                                            echo "<img src='".url('/img/loading2.gif')."' data-src='".$img_d."' class='text-center img_view lazy' alt='".$post->title."' style='max-height: 330px;'   />";
+                                                        }else{
+                                                            echo "<img src='".$img_d."' class='text-center img_view lazy' alt='".$post->title."' style='max-height: 330px;'   />";;
+                                                        }
+
                                                     }else{
                                                         preg_match('/<iframe.*src=\"(.*)\".*><\/iframe>/isU', $post->content, $matches);
                                                         if(isset($matches[1])){
                                                             echo '<div class="videoWrapper">
-                                                                        <iframe src="'.$matches[1].'"></iframe></div>';
-
+                                                                    <iframe src="'.$matches[1].'" ></iframe></div>';
                                                         }
                                                     }
-                                                    ?>
-                                                </a>
-                                                @if(auth()->check())
-                                                    <a href="{{ url('/p/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html" class="title">{{ utf8_decode($post->title) }}</a>
-                                                @else
-                                                    <a href="{{ url('/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html" class="title">{{ utf8_decode($post->title) }}</a>
-                                                @endif
-                                                <summary class="description" style="word-wrap: break-word;font-size: 12px;">
+                                                    ?></div>
+
+                                            </figure>
+                                            <div class="story_meta">
+                                                <p class="story_description" style="font-size: 13px;line-height: 1.4">
                                                     <?php
                                                     $content = preg_replace("/<img[^>]+\>/i", "", $post->content);
-                                                    echo substr(utf8_decode(strip_tags($content)),0, 579);
-                                                    ?>@if(strlen(utf8_decode($content)) > 579)
+                                                    echo substr(utf8_decode(strip_tags($content)),0, 200);
+                                                    ?>@if(strlen(utf8_decode(strip_tags($content))) > 200)
                                                         ...
                                                     @endif
-                                                </summary>
-                                                <div class="meta" style="margin-top: 10px;">
-                                                    <?php
-                                                    $title = $post->title;
-                                                    if(strlen($title) > 50){
-                                                        $title = substr($title,0,50)."...";
-                                                    }
+                                                </p>
 
-                                                    ?>
-                                                    <a href="javascript:;" onclick="shareData('{{ $title }}','{{ (isset($img_d) ? $img_d: "") }}','{{ url('/p/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html')" class="share_link">
-                                                        <img src="{{ url('images/icon_share.png') }}" alt="">
-                                                    </a>
-                                                    <div class="post_age"> by Linda Ikeji at {{ \Carbon\Carbon::parse($post->publish_date)->format('d/m/Y g:i A') }}</div>
-                                                    <div class="divider">|</div>
-                                                    {{-- <div class="comments">{{ $post->approved_comments->count() }} Comments</div> --}}
-                                                </div>
-                                            </article>
-                                        <br/>
-                                    <?php $i++;?>
+
+                                            </div>
+                                            <div class="meta" style="font-size: 11px;display: inline-flex;">
+                                                <a href="javascript:;" onclick="shareData('{{ $post->title }}','{{ (isset($img_d) ? $img_d: "") }}','{{ url('/p/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html')" style="height: 17px;padding: 0px 4px;line-height: 15px;background: #890e2a;" class="btn btn-danger">
+                                                    <img src="{{ url('/images/icon_share.png') }}" style="height: 11px;padding: 1px;" alt="">
+                                                </a>
+                                                <div class="post_age" style="margin-left: -9px;"> by Linda Ikeji at {{ \Carbon\Carbon::parse($post->publish_date)->format('d/m/y') }}</div>
+                                                <div class="divider">|</div>
+
+                                                <div class="comments" style="margin-left: 2px;font-size:12px;"><a style="color: #000;" data-disqus-identifier="{{ $post->slug }}"
+                                                    @if(auth()->check())
+                                                        href="{{ url('/p/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html#comments"
+                                                    @else
+                                                        href="{{ url('/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html#comments"
+                                                    @endif>{{ (empty($post->comments)) ? "0": $post->comments }} comments</a></div>
+                                                <a @if(auth()->check())
+                                                   href="{{ url('/p/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html"
+                                                   @else
+                                                   href="{{ url('/'.$post->year.'/'.$post->month.'/'.$post->slug) }}.html"
+                                                   @endif class="pull-right btn btn-danger btn-xs" style="background: #890e2a;margin-left:18px;border: #890e2a;padding: 1px 5px !important;font-size: 9px;line-height: 1.5 !important;">Read More...</a>
+
+                                            </div>
+                                        </article>
+                                    </div>
+
+                                    <div class="visible-xs">
+                                        <div class="clearfix"></div>
+                                        <hr>
+                                    </div>
+
+                                    @if($i%2 == 0)
+                                        <div class="visible-md visible-lg">
+                                            <div class="clearfix"></div>
+                                            <hr>
+                                        </div>
+                                    @endif
+
+                                        <?php if(!app('mobile-detect')->isMobile()) {?>
+                                        @if($i != 0 && $i%4 == 0)
+                                            <div class="desktop_ads">
+
+                                                @if(count($inbtw) > 0 )
+
+                                                    @if(isset($inbtw[$j]))
+                                                        <div class="da x728 visible">
+
+                                                            @if($inbtw[$j]['advert_type'] == "0"  || $inbtw[$j]['advert_type'] == null)
+                                                                {!! $inbtw[$j]['content'] !!}
+                                                            @else
+                                                                <a href="{{ $inbtw[$j]['url'] }}">
+                                                                    <img data-src="{{ $inbtw[$j]['image_url'] }}" class="lazy" alt="advert banner"/>
+                                                                </a>
+                                                            @endif
+                                                        </div>
+                                                    @endif
+
+
+                                                    <?php $j++;?>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        <?php }else{ ?>
+
+                                        @if($indegen == 7)
+
+                                        @endif
+
+                                        @if($i != 0 && $i%3 == 0)
+
+                                            @if($sidebar->count() >0 )
+                                                @if(isset($sidebar[$k]))
+                                                    <div class="da x728 visible-xs">
+                                                        @if($sidebar->count() >0 )
+
+                                                            <?php $sb = $sidebar[$k];?>
+
+                                                            @if($sb->advert_type == "0" || $sb->advert_type == null)
+                                                                {!! $sb->content !!}
+                                                            @else
+                                                                <a href="{{ $sb->url }}">
+                                                                    <img data-src="{{ str_replace("alexis.","www.",$sb->image_url) }}" class="lazy" alt="advert banner"/>
+                                                                </a>
+                                                            @endif
+                                                            <div class="clearfix"></div>
+                                                            <br/>
+
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            @endif
+
+                                            <?php  $k++;?>
+                                        @endif
+                                        <?php }?>
+
+                                    <?php $i++; $indegen++;?>
                                 @endforeach
                                     <div class="pagination-button">
                                         @if (count($categoryPosts) >= 1)
@@ -104,28 +183,27 @@
                                         No posts available
                                     </div>
                                 @endif
-                            </div>
+
                             <!-- Big Story Ends Here -->
+                            </div>
+                            <!-- Big Story Row Ends Here -->
+                            {{-- <div class="text-center">
+                                {!! $categoryPosts->links('pagination') !!}
+                            </div> --}}
                         </div>
-                        <!-- Big Story Row Ends Here -->
-
-
                     </div>
                     <!-- Main Board Ends Here-->
-
-                    <div class="col-md-4 side_board">
-                        <div class="da side_first">
-                            @if($sidebar->count() >0 )
-                                <div class="da x728">
-                                    @if($sidebar->count() >0 )
-                                        @foreach($sidebar as $sb)
-                                            {!! $sb->content !!}
-                                        @endforeach
-                                    @endif
-                                </div>
-                            @endif
+                    <div class="col-md-3 side_board hidden-xs">
+                        <div class="da side_first hidden-xs">
+                            @include('includes.sidebar')
                         </div>
+                        <div class="da side_first hidden-xs desktop_ads">
+                            <?php if(!app('mobile-detect')->isMobile()) {?>
 
+                            @include('includes.sidebar2')
+                                <?php } ?>
+
+                        </div>
                     </div>
                 </div>
             </div>

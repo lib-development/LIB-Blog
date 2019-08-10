@@ -31,7 +31,7 @@
                                                        @if(auth()->check())
                                                        href="{{ url('/p/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}"
                                                        @else
-                                                       href="{{ url('/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}"
+                                                       href="{{ url('/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html"
                                                             @endif
                                                     >
 
@@ -82,15 +82,17 @@
                                                 <a href="javascript:;" onclick="shareData('{{ $b_c->title }}','{{ (isset($img_d) ? $img_d: "") }}','{{ url('/p/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html')" style="height: 17px;padding: 0px 4px;line-height: 15px;background: #890e2a;" class="btn btn-danger">
                                                     <img src="{{ url('/images/icon_share.png') }}" style="height: 11px;padding: 1px;" alt="">
                                                 </a>
-                                                <div class="post_age" style="margin-left: -9px;"> by Linda Ikeji at {{ \Carbon\Carbon::parse($b_c->publish_date)->format('d/m/y') }}</div>
-                                                <div class="divider">|</div>
+                                                <div class="post_age" style="margin-left: -9px; padding: 2px 0;">
+                                                    <strong>{{ \Carbon\Carbon::parse($b_c->publish_date)->diffForHumans() }}</strong>
+                                                </div>
+                                                <div class="divider" style="margin: 0 5px 0"> | </div>
 
-                                                <div class="comments" style="margin-left: 2px;font-size:12px;"><a style="color: #000;" data-disqus-identifier="{{ $b_c->slug }}"
-                                                                                                                  @if(auth()->check())
-                                                                                                                  href="{{ url('/p/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html#comments"
-                                                                                                                  @else
-                                                                                                                  href="{{ url('/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html#comments"
-                                                            @endif>{{ (empty($b_c->comments)) ? "0": $b_c->comments }} comments</a></div>
+                                                <div class="comments" style="margin-left: 2px;font-size:12px; padding: 2px 0"><a style="color: #000;" data-disqus-identifier="{{ $b_c->slug }}"
+                                                    @if(auth()->check())
+                                                        href="{{ url('/p/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html#comments"
+                                                    @else
+                                                        href="{{ url('/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html#comments"
+                                                    @endif>{{ (empty($b_c->comments)) ? "0": $b_c->comments }} comments</a></div>
                                                 <a @if(auth()->check())
                                                    href="{{ url('/p/'.$b_c->year.'/'.$b_c->month.'/'.$b_c->slug) }}.html"
                                                    @else

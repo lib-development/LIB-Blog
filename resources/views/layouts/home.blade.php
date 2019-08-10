@@ -171,7 +171,7 @@
 </head>
 
 
-<body class="page" style="background: url(@if(!background())
+<body class="page js" style="background: url(@if(!background())
 {{ url('/img/background.jpg') }}
         @else
 {{ str_replace('alexis','www',background()) }}
@@ -214,10 +214,10 @@
                         Linda Ikeji's Blog <em class="hidden-xs hidden-md"
                             style="font-size: 13px">So much more to read now <img
                                 src="{{ url('/images/wink.png') }}" alt=""></em></a></h3>
-                <p>
+                {{-- <p>
                     News, Events, Entertainment, Lifestyle, Fashion, Beauty, Inspiration and yes...
                     Gossip! *Wink*
-                </p>
+                </p> --}}
             </div>
 
             <div class="container search_pane">
@@ -601,7 +601,7 @@ function validateEmail(a){var n=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@
 
     <!--Designed and developed by Fluture Technology http://fluturetech.com  -->
     <script>
-                $(document).ready(function() {
+        $(document).ready(function() {
         /* the Responsive menu script */
             $('body').addClass('js');
                 var $menu = $('#menu'),

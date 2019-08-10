@@ -24,9 +24,8 @@ Route::group([], function () {
         Route::group(['prefix' => 'page'], function () {
             Route::get('/{id}', 'Posts\PagesController@getPages')->name('page'); # Get Pages
         });
-        Route::group(['prefix' => 'categories'], function () {
-            Route::get('/{param}', 'Blog\CategoriesController@viewCategory'); # Get Pages
-        });
+
+        Route::get('/{param}', 'Blog\CategoriesController@viewCategories'); # Get Blog Posts for categories
     });
 });
 

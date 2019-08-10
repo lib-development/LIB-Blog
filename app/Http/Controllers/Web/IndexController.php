@@ -119,7 +119,6 @@ class IndexController extends Controller
                 Cache::put("blog_content_view", $blog_content_view, "120");
             }
             $comments = Comment::where('blog_content_id', $blog_content->id)->where('status', '1')->get();
-            // dd($blog_content_view);
             return view('web.post')->with(@compact('sidebar', "keywords", 's_c', 'meta_url', 'meta_time', 'comments', 'blog_content_view', 'blog_contents2', 'inbtw', 'background', 'fp', 'blog_content', 'meta_title', 'meta_description', 'meta_image', 'meta_author'));
         } else {
             return redirect()->to('/');

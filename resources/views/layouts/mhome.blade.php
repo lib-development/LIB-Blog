@@ -143,9 +143,9 @@
     <div class="blog_title">
         <div class="signage">
             <h3><a href="{{ url('/') }}" class="title_s" >Welcome to Linda Ikeji's Blog <em class="hidden-xs hidden-md tip">So much more to read now <img src="{{ url('/images/wink.png') }}" height="20" layout='responsive' alt=""></em></a></h3>
-            <p>
+            {{-- <p>
                 News, Events, Entertainment, Lifestyle, Fashion, Beauty, Inspiration and yes... Gossip! *Wink*
-            </p>
+            </p> --}}
         </div>
 
         <div class="container search_pane">
